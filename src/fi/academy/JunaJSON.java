@@ -17,7 +17,7 @@ Etsi "jackson-databind", valitse versio 2.0.5
 Asentuu Jacksonin databind, sekä core ja annotations
  */
 
-public class junaJSON {
+public class JunaJSON {
     public static void main(String[] args) {
         lueJunanJSONData();
     }
