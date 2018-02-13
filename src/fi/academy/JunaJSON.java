@@ -28,17 +28,32 @@ public class JunaJSON {
         String lahtoAsema = lukija.nextLine();
         System.out.println("Anna pääteasema:");
         String paateAsema = lukija.nextLine();
+
         try {
             URL url = new URL(baseurl+"/live-trains/station/" + lahtoAsema + "/" + paateAsema);
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
             List<Juna> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
 
+            int lahtevaJuna = 1;
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < junat.get(i).getTimeTableRows().size() ; j++) {
+                  if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsema)){
+                      System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime());
+                  }
+
+                }
+            }
+
+//            for (int i = 0; i < junat.size() ; i++) {
+//                if(junat.get(i).getTimeTableRows().get)
+//            }
+//
             // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
-            for (int i = 0; i < junat.get(0).getTimeTableRows().size(); i++) {
-                if (junat.get(0).getTimeTableRows().get(i).getStationShortCode().equals(paateAsema)) {
-                    System.out.println("Olet saapunut paikkaan: " + junat.get(0).getTimeTableRows().get(i).getStationShortCode());
-                    System.out.println("Saapumisaika: " + junat.get(0).getTimeTableRows().get(i).getScheduledTime());
+            for (int i = 0; i < junat.get(lahtevaJuna).getTimeTableRows().size(); i++) {
+                if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsema)) {
+                    System.out.println("Olet saapunut paikkaan: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode());
+                    System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
                     break;
                 }
 //                System.out.println("Kokeillaas: " + junat.get(0).getTimeTableRows().get(i).getStationShortCode());
