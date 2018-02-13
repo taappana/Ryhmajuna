@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /*
 Vaatii Jackson kirjaston:
@@ -31,6 +29,7 @@ public class JunaJSON {
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
             List<Juna> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
             System.out.println(junat.get(0).getTrainNumber());
+            System.out.println("Type: " + junat.get(0).getTimeTableRows().get(0).getScheduledTime());
             // Seuraavaa varten on toteutettava TimeTableRow luokka:
             //System.out.println(junat.get(0).getTimeTableRows().get(0).getScheduledTime());
             System.out.println("\n\n");
@@ -172,4 +171,75 @@ class Juna {
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class TimeTableRow {
+    private String stationShortCode;
+    private Integer stationUICCode;
+    private String countryCode;
+    private String type;
+    private Boolean trainStopping;
+    private Boolean commercialStop;
+    private String commercialTrack;
+    private Boolean cancelled;
+    private String scheduledTime;
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public String getStationShortCode() {
+        return stationShortCode;
+    }
+    public void setStationShortCode(String stationShortCode) {
+        this.stationShortCode = stationShortCode;
+    }
+    public Integer getStationUICCode() {
+        return stationUICCode;
+    }
+    public void setStationUICCode(Integer stationUICCode) {
+        this.stationUICCode = stationUICCode;
+    }
+    public String getCountryCode() {
+        return countryCode;
+    }
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public Boolean getTrainStopping() {
+        return trainStopping;
+    }
+    public void setTrainStopping(Boolean trainStopping) {
+        this.trainStopping = trainStopping;
+    }
+    public Boolean getCommercialStop() {
+        return commercialStop;
+    }
+    public void setCommercialStop(Boolean commercialStop) {
+        this.commercialStop = commercialStop;
+    }
+    public String getCommercialTrack() {
+        return commercialTrack;
+    }
+    public void setCommercialTrack(String commercialTrack) {
+        this.commercialTrack = commercialTrack;
+    }
+    public Boolean getCancelled() {
+        return cancelled;
+    }
+    public void setCancelled(Boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+    public String getScheduledTime() {
+        return scheduledTime;
+    }
+    public void setScheduledTime(String scheduledTime) {
+        this.scheduledTime = scheduledTime;
+    }
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
 }
