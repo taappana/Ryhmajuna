@@ -23,8 +23,10 @@ public class JunaJSON {
 
     private static void lueJunanJSONData() {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
+        String lahtoAsema = "HKI";
+        String paateAsema = "LH";
         try {
-            URL url = new URL(baseurl+"/live-trains/station/HKI/LH");
+            URL url = new URL(baseurl+"/live-trains/station/" + lahtoAsema + "/" + paateAsema);
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
             List<Juna> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
@@ -34,6 +36,7 @@ public class JunaJSON {
             //System.out.println(junat.get(0).getTimeTableRows().get(0).getScheduledTime());
             System.out.println("\n\n");
             System.out.println(junat.get(0));
+
 
         } catch (Exception ex) {
             System.out.println(ex);
