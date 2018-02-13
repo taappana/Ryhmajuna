@@ -33,17 +33,21 @@ public class JunaJSON {
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
             List<Juna> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
-            System.out.println(junat.get(0).getTrainNumber());
-            System.out.println("Type: " + junat.get(0).getTimeTableRows().get(0).getScheduledTime());
-            // Seuraavaa varten on toteutettava TimeTableRow luokka:
-            //System.out.println(junat.get(0).getTimeTableRows().get(0).getScheduledTime());
-            System.out.println("\n\n");
-            System.out.println(junat.get(0));
 
+            // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
+            for (int i = 0; i < junat.get(0).getTimeTableRows().size(); i++) {
+                if (junat.get(0).getTimeTableRows().get(i).getStationShortCode().equals(paateAsema)) {
+                    System.out.println("Olet saapunut paikkaan: " + junat.get(0).getTimeTableRows().get(i).getStationShortCode());
+                    System.out.println("Saapumisaika: " + junat.get(0).getTimeTableRows().get(i).getScheduledTime());
+                    break;
+                }
+//                System.out.println("Kokeillaas: " + junat.get(0).getTimeTableRows().get(i).getStationShortCode());
+            }
 
         } catch (Exception ex) {
             System.out.println(ex);
         }
+
     }
 
 }
