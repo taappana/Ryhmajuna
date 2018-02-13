@@ -23,8 +23,11 @@ public class JunaJSON {
 
     private static void lueJunanJSONData() {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
-        String lahtoAsema = "HKI";
-        String paateAsema = "LH";
+        Scanner lukija = new Scanner(System.in);
+        System.out.println("Anna lähtöasema:");
+        String lahtoAsema = lukija.nextLine();
+        System.out.println("Anna pääteasema:");
+        String paateAsema = lukija.nextLine();
         try {
             URL url = new URL(baseurl+"/live-trains/station/" + lahtoAsema + "/" + paateAsema);
             ObjectMapper mapper = new ObjectMapper();
