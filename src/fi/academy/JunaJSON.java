@@ -27,9 +27,13 @@ public class JunaJSON {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         Scanner lukija = new Scanner(System.in);
         System.out.println("Anna lähtöasema:");
-        String kayttajanLahtoAsema = lukija.nextLine();
+        String kayttajanLahtoAsema = lukija.nextLine().toLowerCase();
+        String kayttajanLahtoAsemaEkaKirjain = kayttajanLahtoAsema.substring(0, 1).toUpperCase();
+        String kayttajanLahtoAsemaEkaIsolla = kayttajanLahtoAsemaEkaKirjain + kayttajanLahtoAsema.substring(1);
         System.out.println("Anna pääteasema:");
-        String kayttajanPaateAsema = lukija.nextLine();
+        String kayttajanPaateAsema = lukija.nextLine().toLowerCase();
+        String kayttajanPaateAsemaEkaKirjain = kayttajanPaateAsema.substring(0, 1).toUpperCase();
+        String kayttajanPaateAsemaEkaIsolla = kayttajanPaateAsemaEkaKirjain + kayttajanPaateAsema.substring(1);
         System.out.println("Anna tunnit!");
         int annetutTunnit = lukija.nextInt();
         System.out.println("Anna minuutit!");
@@ -49,10 +53,10 @@ public class JunaJSON {
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Asemat.class);
             List<Asemat> asemat = mapper.readValue(url, tarkempiListanTyyppi);
 
-            String annettuLahtoAsema = kayttajanLahtoAsema;
+            String annettuLahtoAsema = kayttajanLahtoAsemaEkaIsolla;
             int annetunLahtoAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
-                if (asemat.get(i).getStationName().equalsIgnoreCase(annettuLahtoAsema)) {
+                if (asemat.get(i).getStationName().startsWith(annettuLahtoAsema)) {
                     annetunLahtoAsemanIndeksi = i;
                     break;
                 }
@@ -60,10 +64,10 @@ public class JunaJSON {
             lahtoAsemaLyhenne = asemat.get(annetunLahtoAsemanIndeksi).getStationShortCode();
             System.out.println("lyhennetty lähtöasema : " + asemat.get(annetunLahtoAsemanIndeksi).getStationShortCode());
 
-            String annettuPaateAsema = kayttajanPaateAsema;
+            String annettuPaateAsema = kayttajanPaateAsemaEkaIsolla;
             int annetunPaateAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
-                if (asemat.get(i).getStationName().equalsIgnoreCase(annettuPaateAsema)) {
+                if (asemat.get(i).getStationName().startsWith(annettuPaateAsema)) {
                     annetunPaateAsemanIndeksi = i;
                     break;
                 }
