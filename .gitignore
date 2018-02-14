@@ -1,5 +1,5 @@
 .idea
-.iml
+*.iml
 /out
 /target
-.jar
+*.jar
