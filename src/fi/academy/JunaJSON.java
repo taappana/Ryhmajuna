@@ -21,28 +21,64 @@ public class JunaJSON {
         lueJunanJSONData();
     }
 
-
+    //    static String lahtoAsemaLyhenne = "";
+//    static String paateAsemaLyhenne = "";
     private static void lueJunanJSONData() {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         Scanner lukija = new Scanner(System.in);
         System.out.println("Anna lähtöasema:");
-        String lahtoAsema = lukija.nextLine();
+        String kayttajanLahtoAsema = lukija.nextLine();
         System.out.println("Anna pääteasema:");
-        String paateAsema = lukija.nextLine();
+        String kayttajanPaateAsema = lukija.nextLine();
+        String lahtoAsemaLyhenne = "";
+        String paateAsemaLyhenne = "";
 
         try {
-            URL url = new URL(baseurl+"/live-trains/station/" + lahtoAsema + "/" + paateAsema);
+            URL url = new URL("https://rata.digitraffic.fi/api/v1/metadata/stations");
+            ObjectMapper mapper = new ObjectMapper();
+            CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Asemat.class);
+            List<Asemat> asemat = mapper.readValue(url, tarkempiListanTyyppi);
+
+            String annettuLahtoAsema = kayttajanLahtoAsema;
+            int annetunLahtoAsemanIndeksi = 0;
+            for (int i = 0; i < asemat.size(); i++) {
+                if (asemat.get(i).getStationName().equals(annettuLahtoAsema)) {
+                    annetunLahtoAsemanIndeksi = i;
+                    break;
+                }
+            }
+            lahtoAsemaLyhenne = asemat.get(annetunLahtoAsemanIndeksi).getStationShortCode();
+            System.out.println("lyhennetty lähtöasema : " + asemat.get(annetunLahtoAsemanIndeksi).getStationShortCode());
+
+            String annettuPaateAsema = kayttajanPaateAsema;
+            int annetunPaateAsemanIndeksi = 0;
+            for (int i = 0; i < asemat.size(); i++) {
+                if (asemat.get(i).getStationName().equals(annettuPaateAsema)) {
+                    annetunPaateAsemanIndeksi = i;
+                    break;
+                }
+            }
+            paateAsemaLyhenne = asemat.get(annetunPaateAsemanIndeksi).getStationShortCode();
+            System.out.println("lyhennetty pääteasema : " + asemat.get(annetunPaateAsemanIndeksi).getStationShortCode());
+
+
+        } catch (Exception exe) {
+            System.out.println(exe);
+        }
+
+        try {
+            URL Junaurl = new URL(baseurl+"/live-trains/station/" + lahtoAsemaLyhenne + "/" + paateAsemaLyhenne);
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
-            List<Juna> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
+            List<Juna> junat = mapper.readValue(Junaurl, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
 
             int lahtevaJuna;
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < junat.get(i).getTimeTableRows().size() ; j++) {
-                  if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsema) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE")){
-                      System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime() + " indeksi" + i);
+                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE")){
+                        System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime() + " indeksi" + i);
 
-                  }
+                    }
                 }
             }
             System.out.println("Anna lähtevän junan indeksi: ");
@@ -54,7 +90,7 @@ public class JunaJSON {
 //
             // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
             for (int i = 0; i < junat.get(lahtevaJuna).getTimeTableRows().size(); i++) {
-                if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsema)) {
+                if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
                     System.out.println("Olet saapunut paikkaan: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode());
                     System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
                     break;
@@ -271,4 +307,14 @@ class TimeTableRow {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+}
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+class Asemat{
+    private String stationShortCode;
+    private String stationName;
+
+
+    public String getStationShortCode() {return stationShortCode;}
+    public String getStationName() { return stationName;}
 }
