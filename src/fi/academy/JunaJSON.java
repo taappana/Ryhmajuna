@@ -30,8 +30,18 @@ public class JunaJSON {
         String kayttajanLahtoAsema = lukija.nextLine();
         System.out.println("Anna pääteasema:");
         String kayttajanPaateAsema = lukija.nextLine();
+        System.out.println("Anna tunnit!");
+        int annetutTunnit = lukija.nextInt();
+        System.out.println("Anna minuutit!");
+        int annetutMinuutit = lukija.nextInt();
         String lahtoAsemaLyhenne = "";
         String paateAsemaLyhenne = "";
+
+        Calendar kalenteri = new GregorianCalendar();
+        kalenteri.set(Calendar.MINUTE, annetutMinuutit);
+        kalenteri.set(Calendar.HOUR_OF_DAY, annetutTunnit);
+        System.out.println(kalenteri.getTime());
+        Date aika2 = kalenteri.getTime();
 
         try {
             URL url = new URL("https://rata.digitraffic.fi/api/v1/metadata/stations");
@@ -42,7 +52,7 @@ public class JunaJSON {
             String annettuLahtoAsema = kayttajanLahtoAsema;
             int annetunLahtoAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
-                if (asemat.get(i).getStationName().equals(annettuLahtoAsema)) {
+                if (asemat.get(i).getStationName().equalsIgnoreCase(annettuLahtoAsema)) {
                     annetunLahtoAsemanIndeksi = i;
                     break;
                 }
@@ -53,7 +63,7 @@ public class JunaJSON {
             String annettuPaateAsema = kayttajanPaateAsema;
             int annetunPaateAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
-                if (asemat.get(i).getStationName().equals(annettuPaateAsema)) {
+                if (asemat.get(i).getStationName().equalsIgnoreCase(annettuPaateAsema)) {
                     annetunPaateAsemanIndeksi = i;
                     break;
                 }
@@ -73,14 +83,23 @@ public class JunaJSON {
             List<Juna> junat = mapper.readValue(Junaurl, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
 
             int lahtevaJuna;
-            for (int i = 0; i < 5; i++) {
+            int loydettyja = 0;
+            ulompi:
+
+            for (int i = 0; i < junat.size(); i++) {
+
                 for (int j = 0; j < junat.get(i).getTimeTableRows().size() ; j++) {
-                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE")){
+                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE") && junat.get(i).getTimeTableRows().get(j).getScheduledTime().after(aika2)){
                         System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime() + " indeksi" + i);
+                        loydettyja++;
+                        if(loydettyja>=5){
+                            break ulompi;
+                        }
 
                     }
                 }
             }
+
             System.out.println("Anna lähtevän junan indeksi: ");
             lahtevaJuna = lukija.nextInt();
 
