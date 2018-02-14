@@ -52,7 +52,7 @@ public class JunaJSON {
             String annettuLahtoAsema = kayttajanLahtoAsema;
             int annetunLahtoAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
-                if (asemat.get(i).getStationName().equals(annettuLahtoAsema)) {
+                if (asemat.get(i).getStationName().equalsIgnoreCase(annettuLahtoAsema)) {
                     annetunLahtoAsemanIndeksi = i;
                     break;
                 }
@@ -63,7 +63,7 @@ public class JunaJSON {
             String annettuPaateAsema = kayttajanPaateAsema;
             int annetunPaateAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
-                if (asemat.get(i).getStationName().equals(annettuPaateAsema)) {
+                if (asemat.get(i).getStationName().equalsIgnoreCase(annettuPaateAsema)) {
                     annetunPaateAsemanIndeksi = i;
                     break;
                 }
