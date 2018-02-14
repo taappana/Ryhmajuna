@@ -89,7 +89,7 @@ public class JunaJSON {
             for (int i = 0; i < junat.size(); i++) {
 
                 for (int j = 0; j < junat.get(i).getTimeTableRows().size() ; j++) {
-                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE") && junat.get(i).getTimeTableRows().get(j).getScheduledTime().after(aika2)){
+                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE") && junat.get(i).getTimeTableRows().get(j).getCommercialStop() && junat.get(i).getTimeTableRows().get(j).getScheduledTime().after(aika2)){
                         System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime() + " indeksi" + i);
                         loydettyja++;
                         if(loydettyja>=5){
