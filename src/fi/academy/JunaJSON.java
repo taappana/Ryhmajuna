@@ -1,5 +1,6 @@
 package fi.academy;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -35,15 +36,17 @@ public class JunaJSON {
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
             List<Juna> junat = mapper.readValue(url, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
 
-            int lahtevaJuna = 1;
+            int lahtevaJuna;
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < junat.get(i).getTimeTableRows().size() ; j++) {
-                  if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsema)){
-                      System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime());
-                  }
+                  if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsema) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE")){
+                      System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime() + " indeksi" + i);
 
+                  }
                 }
             }
+            System.out.println("Anna lähtevän junan indeksi: ");
+            lahtevaJuna = lukija.nextInt();
 
 //            for (int i = 0; i < junat.size() ; i++) {
 //                if(junat.get(i).getTimeTableRows().get)
@@ -204,7 +207,8 @@ class TimeTableRow {
     private Boolean commercialStop;
     private String commercialTrack;
     private Boolean cancelled;
-    private String scheduledTime;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'", timezone = "UTC")
+    private Date scheduledTime;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public String getStationShortCode() {
@@ -255,10 +259,10 @@ class TimeTableRow {
     public void setCancelled(Boolean cancelled) {
         this.cancelled = cancelled;
     }
-    public String getScheduledTime() {
+    public Date getScheduledTime() {
         return scheduledTime;
     }
-    public void setScheduledTime(String scheduledTime) {
+    public void setScheduledTime(Date scheduledTime) {
         this.scheduledTime = scheduledTime;
     }
     public Map<String, Object> getAdditionalProperties() {
