@@ -23,21 +23,21 @@ public class JunaJSON {
         String annettuPaateAsema = Metodit.syötePääte();
 
         // Kysytään käyttäjältä lähtöaikaa
-        System.out.println("Anna tunnit!");
+        System.out.print("\nAnna tunnit: ");
         int annetutTunnit = lukija.nextInt();
 
         while(annetutTunnit < 0|| annetutTunnit > 23) {
-            System.out.println("Anna tunti väliltä 0-23.");
-            System.out.println("Anna tunnit!");
+            System.out.println("\nAnna tunti väliltä 0-23. \n");
+            System.out.print("Anna tunnit: ");
             annetutTunnit = lukija.nextInt();
         }
 
-        System.out.println("Anna minuutit!");
+        System.out.print("Anna minuutit: ");
         int annetutMinuutit = lukija.nextInt();
 
         while(annetutMinuutit < 0 || annetutMinuutit > 59) {
-            System.out.println("Anna minuutit väliltä 0-59.");
-            System.out.println("Anna minuutit!");
+            System.out.println("\nAnna minuutit väliltä 0-59. \n");
+            System.out.print("Anna minuutit: ");
             annetutMinuutit = lukija.nextInt();
         }
 
@@ -49,7 +49,16 @@ public class JunaJSON {
         Calendar kalenteri = new GregorianCalendar();
         kalenteri.set(Calendar.MINUTE, annetutMinuutit);
         kalenteri.set(Calendar.HOUR_OF_DAY, annetutTunnit);
-        System.out.println("Haetaan junia ajasta " + kalenteri.getTime() +" eteenpäin." + "\n");
+        // System.out.println("Haetaan junia ajasta " + kalenteri.getTime() +" eteenpäin." + "\n");
+        System.out.println("Haetaan junia: " + kalenteri.getTime());
+        System.out.println("\n" +
+                "|￣￣￣￣￣￣￣￣| \n" +
+                "| Haetaan     | \n" +
+                "| aikatauluja |\n" +
+                "|＿＿＿＿＿＿＿＿| \n" +
+                "(\\__/)|| \n" +
+                "(•ㅅ•) || \n" +
+                "/ 　 づ" + "\n");
         Date aika2 = kalenteri.getTime();
 
         // Käsitellään asemadataa. Saadaan aseman kokonimi ja sitä vastaava lyhenne
@@ -71,7 +80,7 @@ public class JunaJSON {
             lahtoAsemaLyhenne = asemat.get(annetunLahtoAsemanIndeksi).getStationShortCode();
 
             if (lahtoAsemaLyhenne.equals("AHO")) {
-                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa lähtöasemaa? Kokeiles uudestaan:");
+                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa lähtöasemaa? Kokeiles uudestaan.");
                 System.out.println("");
                 lueJunanJSONData();
             }
@@ -88,7 +97,7 @@ public class JunaJSON {
             paateAsemaLyhenne = asemat.get(annetunPaateAsemanIndeksi).getStationShortCode();
 
             if (paateAsemaLyhenne.equals("AHO")) {
-                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa pääteasemaa? Turha luulo et me sua palveltais!!!");
+                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa pääteasemaa? Kokeiles uudestaan.");
                 lueJunanJSONData();
             }
 

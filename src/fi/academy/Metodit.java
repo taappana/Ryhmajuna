@@ -8,7 +8,7 @@ public class Metodit {
     public static String syöteLahto() {
         Scanner lukija = new Scanner(System.in);
         // Käsitellään lähtöäaseman syöte pieniksi kirjaimiksi.
-        System.out.println("Anna lähtöasema:");
+        System.out.print("Anna lähtöasema: ");
         String kayttajanLahtoAsema = lukija.nextLine().toLowerCase();
         String kayttajanLahtoAsemaEkaKirjain = kayttajanLahtoAsema.substring(0, 1).toUpperCase();
         String kayttajanLahtoAsemaEkaIsolla = kayttajanLahtoAsemaEkaKirjain + kayttajanLahtoAsema.substring(1);
@@ -17,7 +17,7 @@ public class Metodit {
     public static String syötePääte() {
         Scanner lukija = new Scanner(System.in);
         // Käsitellään pääteäaseman syöte pieniksi kirjaimiksi.
-        System.out.println("Anna pääteasema:");
+        System.out.print("Anna pääteasema: ");
         String kayttajanPaateAsema = lukija.nextLine().toLowerCase();
         String kayttajanPaateAsemaEkaKirjain = kayttajanPaateAsema.substring(0, 1).toUpperCase();
         String kayttajanPaateAsemaEkaIsolla = kayttajanPaateAsemaEkaKirjain + kayttajanPaateAsema.substring(1);
@@ -42,8 +42,7 @@ public class Metodit {
 
     public static void valittuLahtoTaiSaapuminen() {
         Scanner lukija = new Scanner(System.in);
-        System.out.println("Valitse 1, jos haluat aikataulun lähtöajan mukaan.");
-        System.out.println("Valitse 2, jos haluat aikataulun saapumisajan mukaan.");
+        System.out.println(" Valitse 1, jos haluat aikataulun lähtöajan mukaan. \n Valitse 2, jos haluat aikataulun saapumisajan mukaan.");
         kayttajanValinta = lukija.nextLine();
         while (!(kayttajanValinta.equalsIgnoreCase("1") || kayttajanValinta.equalsIgnoreCase("2"))) {
             System.out.println("Valinnan täytyy olla 1 tai 2. \n Valitse 1, jos haluat aikataulun lähtöajan mukaan. \n Valitse 2, jos haluat aikataulun saapumisajan mukaan.");
@@ -67,11 +66,9 @@ public class Metodit {
         Collections.reverse(junat);
         saapuva:
         for (int i = 0; i < junat.size(); i++) {
-            //for (int i = junat.size(); i > junat.size(); i--) {
             Juna nykyinenJuna = junat.get(i);
             List<TimeTableRow> nykyisetAikataulurivit = nykyinenJuna.getTimeTableRows();
             for (int j = 0; j < nykyisetAikataulurivit.size(); j++) {
-                //for (int j = junat.get(i).getTimeTableRows().size(); j > junat.get(i).getTimeTableRows().size(); j--) {
                 TimeTableRow nykyinenRivi = nykyisetAikataulurivit.get(j);
                 if (nykyinenRivi.getStationShortCode().equals(paateAsemaLyhenne) && nykyinenRivi.getType().equals("ARRIVAL") && nykyinenRivi.getScheduledTime().before(aika2)) {
 
