@@ -11,9 +11,8 @@ import java.net.URL;
 import java.util.*;
 
 public class JunaJSON {
-    public static void main(String[] args) {
-        lueJunanJSONData();
-    }
+
+
     public static String syöteLahto() {
         Scanner lukija = new Scanner(System.in);
         // Käsitellään lähtöäaseman syöte pieniksi kirjaimiksi.
@@ -32,7 +31,7 @@ public class JunaJSON {
         String kayttajanPaateAsemaEkaIsolla = kayttajanPaateAsemaEkaKirjain + kayttajanPaateAsema.substring(1);
         return kayttajanPaateAsemaEkaIsolla;
     }
-    private static void lueJunanJSONData() {
+    public static void lueJunanJSONData() {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         Scanner lukija = new Scanner(System.in);
         String annettuLahtoAsema = syöteLahto();
