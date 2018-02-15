@@ -41,8 +41,21 @@ public class JunaJSON {
         // Kysytään käyttäjältä lähtöaikaa
         System.out.println("Anna tunnit!");
         int annetutTunnit = lukija.nextInt();
+
+        while(annetutTunnit < 0|| annetutTunnit > 23) {
+            System.out.println("Anna tunti väliltä 0-23.");
+            System.out.println("Anna tunnit!");
+            annetutTunnit = lukija.nextInt();
+        }
+
         System.out.println("Anna minuutit!");
         int annetutMinuutit = lukija.nextInt();
+
+        while(annetutMinuutit < 0 || annetutMinuutit > 59) {
+            System.out.println("Anna minuutit väliltä 0-59.");
+            System.out.println("Anna minuutit!");
+            annetutMinuutit = lukija.nextInt();
+        }
 
         // Alustettu tyhjillä merkkijonoilla, jotta URL ei herjaa
         String lahtoAsemaLyhenne= "";
