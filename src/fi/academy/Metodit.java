@@ -37,7 +37,7 @@ public class Metodit {
         int celsius = rnd.nextInt(5 + 1 + 6) - 6;
         int saanIndeksi = rnd.nextInt(saatila.size());
         String randomSaa = saatila.get(saanIndeksi);
-        return ("Paikallinen säätila: " + celsius + " celsiusastetta ja " + randomSaa + ".");
+        return ("Sää perillä: " + celsius + " celsiusastetta ja " + randomSaa + ".");
     }
 
     public static void valittuLahtoTaiSaapuminen() {
@@ -68,21 +68,28 @@ public class Metodit {
         for (int i = 0; i < junat.size(); i++) {
             Juna nykyinenJuna = junat.get(i);
             List<TimeTableRow> nykyisetAikataulurivit = nykyinenJuna.getTimeTableRows();
-            for (int j = 0; j < nykyisetAikataulurivit.size(); j++) {
-                TimeTableRow nykyinenRivi = nykyisetAikataulurivit.get(j);
-                if (nykyinenRivi.getStationShortCode().equals(paateAsemaLyhenne) && nykyinenRivi.getType().equals("ARRIVAL") && nykyinenRivi.getScheduledTime().before(aika2)) {
+            TimeTableRow lahtorivi = null;
+            for(TimeTableRow rivi : nykyisetAikataulurivit) {
+                if(rivi.getStationShortCode().equals(lahtoAsemaLyhenne)) {
+                    lahtorivi = rivi;
+                } else if (lahtorivi != null) {
+                    if(rivi.getStationShortCode().equals(paateAsemaLyhenne)) {
+                        if (rivi.getScheduledTime().before(aika2)) {
+                            System.out.println("\n"+"Lähtöaika: " + "\t" +"\t" +"\t" +"\t" +"\t"+"\t"+"\t"+"\t"+ lahtorivi.getScheduledTime());
+                            System.out.println("Saapumisaika: " +"\t" +"\t"+"\t"+"\t"+"\t" +"\t"+"\t"+ rivi.getScheduledTime());
+                            long difference = rivi.getScheduledTime().getTime() - lahtorivi.getScheduledTime().getTime();
+                            System.out.println("Valitse tämä matka indeksistä " + i +"." + "\t"+ "\t"+ "Matka-aika on " +  (difference/60000) +  " minuuttia.");
 
-                    System.out.println("Aikataulun mukainen saapumisaika: " + nykyinenRivi.getScheduledTime() + "Junan numero: " + nykyinenJuna.getTrainNumber() + " indeksi: " + i);
-                    loytyy++;
-                    if (loytyy >= 5) {
-                        break saapuva;
+                            loytyy++;
+                            if(loytyy >= 5) break saapuva;
+                            break;
+                        }
                     }
-
                 }
             }
         }
 
-        System.out.println("Anna haluamasi junan indeksi: ");
+        System.out.println("\n" + "Anna haluamasi junan indeksi: ");
         saapuvaJuna = lukija.nextInt();
 
         // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot

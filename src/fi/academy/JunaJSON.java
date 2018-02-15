@@ -23,7 +23,7 @@ public class JunaJSON {
         String annettuPaateAsema = Metodit.syötePääte();
 
         // Kysytään käyttäjältä lähtöaikaa
-        System.out.print("\nAnna tunnit: ");
+        System.out.print("Anna tunnit: ");
         int annetutTunnit = lukija.nextInt();
 
         while(annetutTunnit < 0|| annetutTunnit > 23) {
