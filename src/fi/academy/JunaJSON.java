@@ -31,6 +31,21 @@ public class JunaJSON {
         String kayttajanPaateAsemaEkaIsolla = kayttajanPaateAsemaEkaKirjain + kayttajanPaateAsema.substring(1);
         return kayttajanPaateAsemaEkaIsolla;
     }
+    public static String randomSaatila() {
+        List<String> saatila = new ArrayList<String>();
+        saatila.add("harvinaisen aurinkoista");
+        saatila.add("etanan lupaamaa poutaa");
+        saatila.add("sataa mummoja hameet korvissa");
+        saatila.add("keltaista lumisadetta");
+        saatila.add("lumimyrskyä");
+        saatila.add("räntäsadetta");
+        saatila.add("sataa kissoja ja koiria");
+        Random rnd = new Random();
+        int celsius = rnd.nextInt(5 + 1 + 6) - 6;
+        int saanIndeksi = rnd.nextInt(saatila.size());
+        String randomSaa = saatila.get(saanIndeksi);
+        return ("Paikallinen säätila: " + celsius + " celsiusastetta ja " + randomSaa + ".");
+    }
     public static void lueJunanJSONData() {
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         Scanner lukija = new Scanner(System.in);
@@ -92,7 +107,7 @@ public class JunaJSON {
             }
 
             // Haetaan käyttäjän syötteen mukaista pääteasemaa listalta
-            int annetunPaateAsemanIndeksi = -1;
+            int annetunPaateAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
                 if (asemat.get(i).getStationName().startsWith(annettuPaateAsema)) {
                     annetunPaateAsemanIndeksi = i;
@@ -156,6 +171,7 @@ public class JunaJSON {
                 if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
                     System.out.println("Saavut paikkaan: " + annettuPaateAsema);
                     System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
+                    System.out.println(randomSaatila());
                     break;
                 }
 
@@ -195,6 +211,7 @@ public class JunaJSON {
                 if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
                     System.out.println("Lähtöasema: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode());
                     System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
+                    System.out.println(randomSaatila());
                     break;
                 }
             }
