@@ -138,7 +138,7 @@ public class Metodit {
         // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
         for (int i = 0; i < junat.get(lahtevaJuna).getTimeTableRows().size(); i++) {
             if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
-                System.out.println("Saavut paikkaan: " + annettuPaateAsema);
+                System.out.println("\n" + "Saavut paikkaan: " + annettuPaateAsema);
                 System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
                 System.out.println(randomSaatila());
                 break;
