@@ -148,6 +148,44 @@ public class JunaJSON {
                 }
 
             }
+            int saapuvaJuna;
+            int loytyy = 0;
+            Collections.reverse(junat);
+            saapuva:
+            for (int i = 0; i < junat.size(); i++) {
+                //for (int i = junat.size(); i > junat.size(); i--) {
+                Juna nykyinenJuna = junat.get(i);
+                List<TimeTableRow> nykyisetAikataulurivit = nykyinenJuna.getTimeTableRows();
+                for (int j = 0; j < nykyisetAikataulurivit.size(); j++) {
+                    //for (int j = junat.get(i).getTimeTableRows().size(); j > junat.get(i).getTimeTableRows().size(); j--) {
+                    TimeTableRow nykyinenRivi = nykyisetAikataulurivit.get(j);
+                    if (nykyinenRivi.getStationShortCode().equals(paateAsemaLyhenne) && nykyinenRivi.getType().equals("ARRIVAL") && nykyinenRivi.getScheduledTime().before(aika2)) {
+
+                        System.out.println("Aikataulun mukainen saapumisaika: " + nykyinenRivi.getScheduledTime() + "Junan numero: " + nykyinenJuna.getTrainNumber() + " indeksi" + i);
+                        loytyy++;
+                        if (loytyy >= 5) {
+                            break saapuva;
+                        }
+
+                    }
+                }
+            }
+
+            System.out.println("Anna haluamasi junan indeksi: ");
+            saapuvaJuna = lukija.nextInt();
+
+//            for (int i = 0; i < junat.size() ; i++) {
+//                if(junat.get(i).getTimeTableRows().get)
+//            }
+//
+            // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
+            for (int i = 0; i < junat.get(saapuvaJuna).getTimeTableRows().size(); i++) {
+                if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
+                    System.out.println("Lähtöasema: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode());
+                    System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
+                    break;
+                }
+            }
 
         } catch (MismatchedInputException e){
             System.out.println("Hyvää päivänjatkoa!");
