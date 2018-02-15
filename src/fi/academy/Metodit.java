@@ -137,19 +137,24 @@ public class Metodit {
                 }
             }
         }
+        if (loytyy == 0) {
+            System.out.println("Hakua vastaavia junavuoroja ei löytynyt.");
+        } else {
+            System.out.println("\n" + "Anna haluamasi junan indeksi: ");
+            saapuvaJuna = lukija.nextInt();
 
-        System.out.println("\n" + "Anna haluamasi junan indeksi: ");
-        saapuvaJuna = lukija.nextInt();
-
-        // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
-        for (int i = 0; i < junat.get(saapuvaJuna).getTimeTableRows().size(); i++) {
-            if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
-                System.out.println("\n" + "Lähtöasema: " + annettuLahtoAsema);
-                System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
-                System.out.println(randomSaatila());
-                break;
+            // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
+            for (int i = 0; i < junat.get(saapuvaJuna).getTimeTableRows().size(); i++) {
+                if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
+                    System.out.println("\n" + "Lähtöasema: " + annettuLahtoAsema);
+                    System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
+                    System.out.println(randomSaatila());
+                    break;
+                }
             }
+
         }
+
     }
 
     public static void junatLahtoajanMukaan(Scanner lukija, String annettuPaateAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
