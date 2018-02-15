@@ -95,7 +95,7 @@ public class Metodit {
         // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
         for (int i = 0; i < junat.get(saapuvaJuna).getTimeTableRows().size(); i++) {
             if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
-                System.out.println("Lähtöasema: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode());
+                System.out.println("\n" + "Lähtöasema: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode());
                 System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
                 System.out.println(randomSaatila());
                 break;
