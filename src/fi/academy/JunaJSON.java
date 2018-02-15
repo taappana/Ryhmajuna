@@ -23,23 +23,8 @@ public class JunaJSON {
         String annettuPaateAsema = Metodit.syötePääte();
 
         // Kysytään käyttäjältä lähtöaikaa
-        System.out.print("Anna tunnit: ");
-        int annetutTunnit = lukija.nextInt();
-
-        while(annetutTunnit < 0|| annetutTunnit > 23) {
-            System.out.println("\nAnna tunti väliltä 0-23. \n");
-            System.out.print("Anna tunnit: ");
-            annetutTunnit = lukija.nextInt();
-        }
-
-        System.out.print("Anna minuutit: ");
-        int annetutMinuutit = lukija.nextInt();
-
-        while(annetutMinuutit < 0 || annetutMinuutit > 59) {
-            System.out.println("\nAnna minuutit väliltä 0-59. \n");
-            System.out.print("Anna minuutit: ");
-            annetutMinuutit = lukija.nextInt();
-        }
+        int annetutTunnit = Metodit.getAnnetutTunnit(lukija);
+        int annetutMinuutit = Metodit.getAnnetutMinuutit(lukija);
 
         // Alustettu tyhjillä merkkijonoilla, jotta URL ei herjaa
         String lahtoAsemaLyhenne= "";

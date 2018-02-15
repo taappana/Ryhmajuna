@@ -24,6 +24,55 @@ public class Metodit {
         return kayttajanPaateAsemaEkaIsolla;
     }
 
+    public static int getAnnetutMinuutit(Scanner lukija) {
+        System.out.print("Anna minuutit: ");
+        int annetutMinuutit = 0;
+        do {
+            try {
+                annetutMinuutit = Integer.parseInt(lukija.nextLine());
+            } catch (Exception mie) {
+                System.out.println("Syötä numeroita.");
+            }
+        } while (annetutMinuutit < 1);
+
+        while(annetutMinuutit < 0 || annetutMinuutit > 59) {
+            System.out.println("\nAnna minuutit väliltä 0-59. \n");
+            System.out.print("Anna minuutit: ");
+            try {
+                annetutMinuutit = Integer.parseInt(lukija.nextLine());
+            } catch (Exception ime) {
+                System.out.println("Syötä numeroita.");
+                continue;
+            }
+        }
+        return annetutMinuutit;
+    }
+
+    public static int getAnnetutTunnit(Scanner lukija) {
+        int annetutTunnit = 0;
+        System.out.print("\nAnna tunnit: ");
+        do {
+            try {
+                annetutTunnit = Integer.parseInt(lukija.nextLine());
+            } catch (Exception mie) {
+                System.out.println("Syötä numeroita.");
+            }
+        } while (annetutTunnit < 1);
+
+
+        while(annetutTunnit < 0|| annetutTunnit > 23) {
+            System.out.println("\nAnna tunti väliltä 0-23. \n");
+            System.out.print("Anna tunnit: ");
+            try {
+                annetutTunnit = Integer.parseInt(lukija.nextLine());
+            } catch (Exception ime) {
+                System.out.println("Anna numeroita.");
+                continue;
+            }
+        }
+        return annetutTunnit;
+    }
+
     public static String randomSaatila() {
         List<String> saatila = new ArrayList<String>();
         saatila.add("harvinaisen aurinkoista");
