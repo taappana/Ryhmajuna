@@ -3,6 +3,7 @@ package fi.academy;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.net.URI;
@@ -13,25 +14,29 @@ public class JunaJSON {
     public static void main(String[] args) {
         lueJunanJSONData();
     }
-
-    private static void lueJunanJSONData() {
-        String baseurl = "https://rata.digitraffic.fi/api/v1";
-
+    public static String syöteLahto() {
         Scanner lukija = new Scanner(System.in);
-
-        // Käsitellään lähtöäaseman syötettä, jotta isot ja pienet kirjaimet ei vaikuta .
-        // Saadaan haulla Helsinki homma toimimaan ilman komenta 'Helsinki asema'
+        // Käsitellään lähtöäaseman syöte pieniksi kirjaimiksi.
         System.out.println("Anna lähtöasema:");
         String kayttajanLahtoAsema = lukija.nextLine().toLowerCase();
         String kayttajanLahtoAsemaEkaKirjain = kayttajanLahtoAsema.substring(0, 1).toUpperCase();
         String kayttajanLahtoAsemaEkaIsolla = kayttajanLahtoAsemaEkaKirjain + kayttajanLahtoAsema.substring(1);
-
-        // Käsitellään pääteäaseman syötettä, jotta isot ja pienet kirjaimet ei vaikuta .
-        // Saadaan haulla Helsinki homma toimimaan ilman komenta 'Helsinki asema'
+        return kayttajanLahtoAsemaEkaIsolla;
+    }
+    public static String syötePääte() {
+        Scanner lukija = new Scanner(System.in);
+        // Käsitellään pääteäaseman syöte pieniksi kirjaimiksi.
         System.out.println("Anna pääteasema:");
         String kayttajanPaateAsema = lukija.nextLine().toLowerCase();
         String kayttajanPaateAsemaEkaKirjain = kayttajanPaateAsema.substring(0, 1).toUpperCase();
         String kayttajanPaateAsemaEkaIsolla = kayttajanPaateAsemaEkaKirjain + kayttajanPaateAsema.substring(1);
+        return kayttajanPaateAsemaEkaIsolla;
+    }
+    private static void lueJunanJSONData() {
+        String baseurl = "https://rata.digitraffic.fi/api/v1";
+        Scanner lukija = new Scanner(System.in);
+        String annettuLahtoAsema = syöteLahto();
+        String annettuPaateAsema = syötePääte();
 
         // Kysytään käyttäjältä lähtöaikaa
         System.out.println("Anna tunnit!");
@@ -58,7 +63,6 @@ public class JunaJSON {
             List<Asemat> asemat = mapper.readValue(url, tarkempiListanTyyppi);
 
             // Haetaan käyttäjän syötteen mukaista lähtöasemaa listalta
-            String annettuLahtoAsema = kayttajanLahtoAsemaEkaIsolla;
             int annetunLahtoAsemanIndeksi = 0;
             for (int i = 0; i < asemat.size(); i++) {
                 if (asemat.get(i).getStationName().startsWith(annettuLahtoAsema)) {
@@ -69,9 +73,14 @@ public class JunaJSON {
             // Antaa indeksiä ja aseman koko nimeä vastaavan lyhenteen
             lahtoAsemaLyhenne = asemat.get(annetunLahtoAsemanIndeksi).getStationShortCode();
 
+            if (lahtoAsemaLyhenne.equals("AHO")) {
+                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa lähtöasemaa? Kokeiles uudestaan:");
+                System.out.println("");
+                lueJunanJSONData();
+            }
+
             // Haetaan käyttäjän syötteen mukaista pääteasemaa listalta
-            String annettuPaateAsema = kayttajanPaateAsemaEkaIsolla;
-            int annetunPaateAsemanIndeksi = 0;
+            int annetunPaateAsemanIndeksi = -1;
             for (int i = 0; i < asemat.size(); i++) {
                 if (asemat.get(i).getStationName().startsWith(annettuPaateAsema)) {
                     annetunPaateAsemanIndeksi = i;
@@ -81,6 +90,10 @@ public class JunaJSON {
             // Antaa indeksiä ja aseman koko nimeä vastaavan lyhenteen
             paateAsemaLyhenne = asemat.get(annetunPaateAsemanIndeksi).getStationShortCode();
 
+            if (paateAsemaLyhenne.equals("AHO")) {
+                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa pääteasemaa? Turha luulo et me sua palveltais!!!");
+                lueJunanJSONData();
+            }
 
         } catch (Exception exe) {
             System.out.println(exe);
@@ -129,13 +142,15 @@ public class JunaJSON {
             // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
             for (int i = 0; i < junat.get(lahtevaJuna).getTimeTableRows().size(); i++) {
                 if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
-                    System.out.println("Olet saapunut paikkaan: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode());
+                    System.out.println("Saavut paikkaan: " + annettuPaateAsema);
                     System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
                     break;
                 }
 
             }
 
+        } catch (MismatchedInputException e){
+            System.out.println("Hyvää päivänjatkoa!");
         } catch (Exception ex) {
             System.out.println(ex);
         }
