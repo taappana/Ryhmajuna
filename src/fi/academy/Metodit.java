@@ -60,7 +60,7 @@ public class Metodit {
         }
     }
 
-    public static void junatSaapumisajanMukaan(Scanner lukija, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
+    public static void junatSaapumisajanMukaan(Scanner lukija, String annettuLahtoAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
         int saapuvaJuna;
         int loytyy = 0;
         Collections.reverse(junat);
@@ -95,7 +95,7 @@ public class Metodit {
         // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
         for (int i = 0; i < junat.get(saapuvaJuna).getTimeTableRows().size(); i++) {
             if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
-                System.out.println("\n" + "Lähtöasema: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode());
+                System.out.println("\n" + "Lähtöasema: " + annettuLahtoAsema);
                 System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
                 System.out.println(randomSaatila());
                 break;

@@ -117,7 +117,7 @@ public class JunaJSON {
             }
             // SAAPUMISAJAN MUKAAN:
             if(Metodit.kayttajanValinta.equalsIgnoreCase("2")) {
-                Metodit.junatSaapumisajanMukaan(lukija, lahtoAsemaLyhenne, paateAsemaLyhenne, aika2, junat);
+                Metodit.junatSaapumisajanMukaan(lukija,annettuLahtoAsema, lahtoAsemaLyhenne, paateAsemaLyhenne, aika2, junat);
             }
         } catch (MismatchedInputException e){
             System.out.println("Hyvää päivänjatkoa!");
