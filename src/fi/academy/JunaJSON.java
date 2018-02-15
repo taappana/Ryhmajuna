@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
+import java.net.URI;
 import java.net.URL;
 import java.util.*;
 
@@ -46,7 +47,7 @@ public class JunaJSON {
         Calendar kalenteri = new GregorianCalendar();
         kalenteri.set(Calendar.MINUTE, annetutMinuutit);
         kalenteri.set(Calendar.HOUR_OF_DAY, annetutTunnit);
-        System.out.println(kalenteri.getTime());
+        System.out.println("Haetaan junia ajasta " + kalenteri.getTime() +" eteenpäin." + "\n");
         Date aika2 = kalenteri.getTime();
 
         // Käsitellään asemadataa. Saadaan aseman kokonimi ja sitä vastaava lyhenne
@@ -87,7 +88,7 @@ public class JunaJSON {
 
         // Käsitellään junadataa. Muokataan haettavaa URL-osoitetta käyttäjän syöttämien lähtö- ja pääteasemine mukaan
         try {
-            URL Junaurl = new URL(baseurl+"/live-trains/station/" + lahtoAsemaLyhenne + "/" + paateAsemaLyhenne);
+            URL Junaurl = new URL(URI.create(baseurl + "/live-trains/station/" + lahtoAsemaLyhenne + "/" + paateAsemaLyhenne).toASCIIString());
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
             List<Juna> junat = mapper.readValue(Junaurl, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
@@ -98,18 +99,28 @@ public class JunaJSON {
             ulompi:
 
             for (int i = 0; i < junat.size(); i++) {
-
                 for (int j = 0; j < junat.get(i).getTimeTableRows().size() ; j++) {
-                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE") && junat.get(i).getTimeTableRows().get(j).getScheduledTime().after(aika2)){
-                        System.out.println("Mahdolliset lähdöt: " + junat.get(i).getTimeTableRows().get(j).getScheduledTime() + " indeksi :" + i);
-                        loydettyja++;
-                        if(loydettyja>=5){
-                            break ulompi;
+                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE") && junat.get(i).getTimeTableRows().get(j).getCommercialStop() && junat.get(i).getTimeTableRows().get(j).getScheduledTime().after(aika2)){
+                        System.out.print("Lähtöaika: " + "\t" +"\t" +"\t" +"\t" +"\t"+"\t"+"\t"+"\t"+ junat.get(i).getTimeTableRows().get(j).getScheduledTime());
+                        for (int k = j+1; k < junat.get(i).getTimeTableRows().size(); k++) {
+                            if(junat.get(i).getTimeTableRows().get(k).getStationShortCode().equals(paateAsemaLyhenne)){
+                                System.out.println("\n"+"Saapumisaika: " +"\t" +"\t"+"\t"+"\t"+"\t" +"\t"+"\t" +junat.get(i).getTimeTableRows().get(k).getScheduledTime());
+                                System.out.println("Valitse tämä matka indeksistä " + i +"." + "\t"+ "\t"+ "Matka-aika on " + (((double)junat.get(i).getTimeTableRows().get(k).getScheduledTime().getTime() - junat.get(i).getTimeTableRows().get(j).getScheduledTime().getTime())/60000) + " minuuttia.");
+                                System.out.println();
+                                loydettyja++;
+                                if(loydettyja>=5){
+                                    break ulompi;
+
+                                }break;
+                            }
+
                         }
+
 
                     }
                 }
             }
+
 
             // Kysytään millä junalla käyttäjä haluaa matkustaa
             System.out.println("Anna valitsemasi junan indeksi: ");
