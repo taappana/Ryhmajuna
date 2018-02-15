@@ -17,7 +17,7 @@ class TimeTableRow {
     private Boolean commercialStop;
     private String commercialTrack;
     private Boolean cancelled;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'", timezone = "UTC")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private Date scheduledTime;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
