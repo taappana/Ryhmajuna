@@ -12,45 +12,15 @@ import java.util.*;
 
 public class JunaJSON {
 
-
-    public static String syöteLahto() {
-        Scanner lukija = new Scanner(System.in);
-        // Käsitellään lähtöäaseman syöte pieniksi kirjaimiksi.
-        System.out.println("Anna lähtöasema:");
-        String kayttajanLahtoAsema = lukija.nextLine().toLowerCase();
-        String kayttajanLahtoAsemaEkaKirjain = kayttajanLahtoAsema.substring(0, 1).toUpperCase();
-        String kayttajanLahtoAsemaEkaIsolla = kayttajanLahtoAsemaEkaKirjain + kayttajanLahtoAsema.substring(1);
-        return kayttajanLahtoAsemaEkaIsolla;
-    }
-    public static String syötePääte() {
-        Scanner lukija = new Scanner(System.in);
-        // Käsitellään pääteäaseman syöte pieniksi kirjaimiksi.
-        System.out.println("Anna pääteasema:");
-        String kayttajanPaateAsema = lukija.nextLine().toLowerCase();
-        String kayttajanPaateAsemaEkaKirjain = kayttajanPaateAsema.substring(0, 1).toUpperCase();
-        String kayttajanPaateAsemaEkaIsolla = kayttajanPaateAsemaEkaKirjain + kayttajanPaateAsema.substring(1);
-        return kayttajanPaateAsemaEkaIsolla;
-    }
-    public static String randomSaatila() {
-        List<String> saatila = new ArrayList<String>();
-        saatila.add("harvinaisen aurinkoista");
-        saatila.add("etanan lupaamaa poutaa");
-        saatila.add("sataa mummoja hameet korvissa");
-        saatila.add("keltaista lumisadetta");
-        saatila.add("lumimyrskyä");
-        saatila.add("räntäsadetta");
-        saatila.add("sataa kissoja ja koiria");
-        Random rnd = new Random();
-        int celsius = rnd.nextInt(5 + 1 + 6) - 6;
-        int saanIndeksi = rnd.nextInt(saatila.size());
-        String randomSaa = saatila.get(saanIndeksi);
-        return ("Paikallinen säätila: " + celsius + " celsiusastetta ja " + randomSaa + ".");
-    }
     public static void lueJunanJSONData() {
+
         String baseurl = "https://rata.digitraffic.fi/api/v1";
         Scanner lukija = new Scanner(System.in);
-        String annettuLahtoAsema = syöteLahto();
-        String annettuPaateAsema = syötePääte();
+
+        Metodit.valittuLahtoTaiSaapuminen();
+
+        String annettuLahtoAsema = Metodit.syöteLahto();
+        String annettuPaateAsema = Metodit.syötePääte();
 
         // Kysytään käyttäjältä lähtöaikaa
         System.out.println("Anna tunnit!");
@@ -132,90 +102,14 @@ public class JunaJSON {
             ObjectMapper mapper = new ObjectMapper();
             CollectionType tarkempiListanTyyppi = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Juna.class);
             List<Juna> junat = mapper.readValue(Junaurl, tarkempiListanTyyppi);  // pelkkä List.class ei riitä tyypiksi
-
-            // Etsitään käyttäjän syötettä vastaavia junalähtöjä ja tulostetaan vaihtoehdot
-            int lahtevaJuna;
-            int loydettyja = 0;
-            ulompi:
-
-            for (int i = 0; i < junat.size(); i++) {
-                for (int j = 0; j < junat.get(i).getTimeTableRows().size() ; j++) {
-                    if (junat.get(i).getTimeTableRows().get(j).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(i).getTimeTableRows().get(j).getType().equals("DEPARTURE") && junat.get(i).getTimeTableRows().get(j).getCommercialStop() && junat.get(i).getTimeTableRows().get(j).getScheduledTime().after(aika2)){
-                        System.out.print("Lähtöaika: " + "\t" +"\t" +"\t" +"\t" +"\t"+"\t"+"\t"+"\t"+ junat.get(i).getTimeTableRows().get(j).getScheduledTime());
-                        for (int k = j+1; k < junat.get(i).getTimeTableRows().size(); k++) {
-                            if(junat.get(i).getTimeTableRows().get(k).getStationShortCode().equals(paateAsemaLyhenne)){
-                                System.out.println("\n"+"Saapumisaika: " +"\t" +"\t"+"\t"+"\t"+"\t" +"\t"+"\t" +junat.get(i).getTimeTableRows().get(k).getScheduledTime());
-                                System.out.println("Valitse tämä matka indeksistä " + i +"." + "\t"+ "\t"+ "Matka-aika on " + (((double)junat.get(i).getTimeTableRows().get(k).getScheduledTime().getTime() - junat.get(i).getTimeTableRows().get(j).getScheduledTime().getTime())/60000) + " minuuttia.");
-                                System.out.println();
-                                loydettyja++;
-                                if(loydettyja>=5){
-                                    break ulompi;
-
-                                }break;
-                            }
-
-                        }
-
-
-                    }
-                }
+            // LÄHTÖAJAN MUKAAN:
+            if(Metodit.kayttajanValinta.equalsIgnoreCase("1")) {
+                Metodit.junatLahtoajanMukaan(lukija, annettuPaateAsema, lahtoAsemaLyhenne, paateAsemaLyhenne, aika2, junat);
             }
-
-
-            // Kysytään millä junalla käyttäjä haluaa matkustaa
-            System.out.println("Anna valitsemasi junan indeksi: ");
-            lahtevaJuna = lukija.nextInt();
-
-            // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
-            for (int i = 0; i < junat.get(lahtevaJuna).getTimeTableRows().size(); i++) {
-                if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
-                    System.out.println("Saavut paikkaan: " + annettuPaateAsema);
-                    System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
-                    System.out.println(randomSaatila());
-                    break;
-                }
-
+            // SAAPUMISAJAN MUKAAN:
+            if(Metodit.kayttajanValinta.equalsIgnoreCase("2")) {
+                Metodit.junatSaapumisajanMukaan(lukija, lahtoAsemaLyhenne, paateAsemaLyhenne, aika2, junat);
             }
-            int saapuvaJuna;
-            int loytyy = 0;
-            Collections.reverse(junat);
-            saapuva:
-            for (int i = 0; i < junat.size(); i++) {
-                //for (int i = junat.size(); i > junat.size(); i--) {
-                Juna nykyinenJuna = junat.get(i);
-                List<TimeTableRow> nykyisetAikataulurivit = nykyinenJuna.getTimeTableRows();
-                for (int j = 0; j < nykyisetAikataulurivit.size(); j++) {
-                    //for (int j = junat.get(i).getTimeTableRows().size(); j > junat.get(i).getTimeTableRows().size(); j--) {
-                    TimeTableRow nykyinenRivi = nykyisetAikataulurivit.get(j);
-                    if (nykyinenRivi.getStationShortCode().equals(paateAsemaLyhenne) && nykyinenRivi.getType().equals("ARRIVAL") && nykyinenRivi.getScheduledTime().before(aika2)) {
-
-                        System.out.println("Aikataulun mukainen saapumisaika: " + nykyinenRivi.getScheduledTime() + "Junan numero: " + nykyinenJuna.getTrainNumber() + " indeksi" + i);
-                        loytyy++;
-                        if (loytyy >= 5) {
-                            break saapuva;
-                        }
-
-                    }
-                }
-            }
-
-            System.out.println("Anna haluamasi junan indeksi: ");
-            saapuvaJuna = lukija.nextInt();
-
-//            for (int i = 0; i < junat.size() ; i++) {
-//                if(junat.get(i).getTimeTableRows().get)
-//            }
-//
-            // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
-            for (int i = 0; i < junat.get(saapuvaJuna).getTimeTableRows().size(); i++) {
-                if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
-                    System.out.println("Lähtöasema: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode());
-                    System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
-                    System.out.println(randomSaatila());
-                    break;
-                }
-            }
-
         } catch (MismatchedInputException e){
             System.out.println("Hyvää päivänjatkoa!");
         } catch (Exception ex) {

@@ -1,13 +1,9 @@
 package fi.academy;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Metodit {
     static String kayttajanValinta;
-
 
     public static String syöteLahto() {
         Scanner lukija = new Scanner(System.in);
@@ -26,6 +22,22 @@ public class Metodit {
         String kayttajanPaateAsemaEkaKirjain = kayttajanPaateAsema.substring(0, 1).toUpperCase();
         String kayttajanPaateAsemaEkaIsolla = kayttajanPaateAsemaEkaKirjain + kayttajanPaateAsema.substring(1);
         return kayttajanPaateAsemaEkaIsolla;
+    }
+
+    public static String randomSaatila() {
+        List<String> saatila = new ArrayList<String>();
+        saatila.add("harvinaisen aurinkoista");
+        saatila.add("etanan lupaamaa poutaa");
+        saatila.add("sataa mummoja hameet korvissa");
+        saatila.add("keltaista lumisadetta");
+        saatila.add("lumimyrskyä");
+        saatila.add("räntäsadetta");
+        saatila.add("sataa kissoja ja koiria");
+        Random rnd = new Random();
+        int celsius = rnd.nextInt(5 + 1 + 6) - 6;
+        int saanIndeksi = rnd.nextInt(saatila.size());
+        String randomSaa = saatila.get(saanIndeksi);
+        return ("Paikallinen säätila: " + celsius + " celsiusastetta ja " + randomSaa + ".");
     }
 
     public static void valittuLahtoTaiSaapuminen() {
@@ -81,6 +93,7 @@ public class Metodit {
             if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
                 System.out.println("Lähtöasema: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode());
                 System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
+                System.out.println(randomSaatila());
                 break;
             }
         }
@@ -123,6 +136,7 @@ public class Metodit {
             if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
                 System.out.println("Saavut paikkaan: " + annettuPaateAsema);
                 System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
+                System.out.println(randomSaatila());
                 break;
             }
 
