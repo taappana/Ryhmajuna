@@ -50,7 +50,7 @@ public class Metodit {
 
     public static int getAnnetutTunnit(Scanner lukija) {
         int annetutTunnit = 0;
-        System.out.print("\nAnna tunnit: ");
+        System.out.print("Anna tunnit: ");
         do {
             try {
                 annetutTunnit = Integer.parseInt(lukija.nextLine());
