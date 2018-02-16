@@ -146,9 +146,11 @@ public class Metodit {
             // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
             for (int i = 0; i < junat.get(saapuvaJuna).getTimeTableRows().size(); i++) {
                 if (junat.get(saapuvaJuna).getTimeTableRows().get(i).getStationShortCode().equals(lahtoAsemaLyhenne) && junat.get(saapuvaJuna).getTimeTableRows().get(i).getType().equals("DEPARTURE")) {
+                    System.out.println("\n************************************************************");
                     System.out.println("\n" + "Lähtöasema: " + annettuLahtoAsema);
                     System.out.println("Junan lähtöaika: " + junat.get(saapuvaJuna).getTimeTableRows().get(i).getScheduledTime());
                     System.out.println(randomSaatila());
+                    System.out.println("\n************************************************************");
                     break;
                 }
             }
@@ -192,9 +194,11 @@ public class Metodit {
         // ottaa talteen saapuvan juna-aseman indeksin ja tulostaa tarvittavat tiedot
         for (int i = 0; i < junat.get(lahtevaJuna).getTimeTableRows().size(); i++) {
             if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
+                System.out.println("\n************************************************************");
                 System.out.println("\n" + "Saavut paikkaan: " + annettuPaateAsema);
                 System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
                 System.out.println(randomSaatila());
+                System.out.println("\n************************************************************");
                 break;
             }
 

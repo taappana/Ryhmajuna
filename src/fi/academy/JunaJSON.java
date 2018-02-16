@@ -67,7 +67,6 @@ public class JunaJSON {
             if (lahtoAsemaLyhenne.equals("AHO")) {
                 System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa lähtöasemaa? Kokeiles uudestaan.");
                 System.out.println("");
-                lueJunanJSONData();
             }
 
             // Haetaan käyttäjän syötteen mukaista pääteasemaa listalta
@@ -82,8 +81,7 @@ public class JunaJSON {
             paateAsemaLyhenne = asemat.get(annetunPaateAsemanIndeksi).getStationShortCode();
 
             if (paateAsemaLyhenne.equals("AHO")) {
-                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa pääteasemaa? Kokeiles uudestaan.");
-                lueJunanJSONData();
+                System.out.println("Ookko nää tyhymä vai ekkä nää vaa ossaa kirjottaa pääteasemaa? Kokeiles uudestaan. \n");
             }
 
         } catch (Exception exe) {
@@ -105,7 +103,8 @@ public class JunaJSON {
                 Metodit.junatSaapumisajanMukaan(lukija,annettuLahtoAsema, lahtoAsemaLyhenne, paateAsemaLyhenne, aika2, junat);
             }
         } catch (MismatchedInputException e){
-            System.out.println("Hyvää päivänjatkoa!");
+            lueJunanJSONData();
+            System.out.println("\nHyvää päivänjatkoa!");
         } catch (Exception ex) {
             System.out.println(ex);
         }
