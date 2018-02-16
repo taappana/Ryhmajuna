@@ -33,7 +33,7 @@ public class Metodit {
             } catch (Exception mie) {
                 System.out.println("Syötä numeroita.");
             }
-        } while (annetutMinuutit < 1);
+        } while (annetutMinuutit < 0);
 
         while(annetutMinuutit < 0 || annetutMinuutit > 59) {
             System.out.println("\nAnna minuutit väliltä 0-59. \n");
@@ -57,7 +57,7 @@ public class Metodit {
             } catch (Exception mie) {
                 System.out.println("Syötä numeroita.");
             }
-        } while (annetutTunnit < 1);
+        } while (annetutTunnit < 0);
 
 
         while(annetutTunnit < 0|| annetutTunnit > 23) {
