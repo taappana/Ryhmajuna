@@ -139,6 +139,7 @@ public class Metodit {
         }
         if (loytyy == 0) {
             System.out.println("Hakua vastaavia junavuoroja ei löytynyt.");
+            System.out.println("Kokeile matkahuoltoa tai taksia:\n - https://matkahuolto.fi\n- https://kovanen.com");
         } else {
             System.out.println("\n" + "Anna haluamasi junan indeksi: ");
             saapuvaJuna = lukija.nextInt();
@@ -195,7 +196,7 @@ public class Metodit {
         for (int i = 0; i < junat.get(lahtevaJuna).getTimeTableRows().size(); i++) {
             if (junat.get(lahtevaJuna).getTimeTableRows().get(i).getStationShortCode().equals(paateAsemaLyhenne)) {
                 System.out.println("\n************************************************************");
-                System.out.println("\n" + "Saavut paikkaan: " + annettuPaateAsema);
+                System.out.println("\n" + "Määränpää: " + annettuPaateAsema);
                 System.out.println("Saapumisaika: " + junat.get(lahtevaJuna).getTimeTableRows().get(i).getScheduledTime());
                 System.out.println(randomSaatila());
                 System.out.println("\n************************************************************");
