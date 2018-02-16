@@ -139,7 +139,7 @@ public class Metodit {
         }
         if (loytyy == 0) {
             System.out.println("Hakua vastaavia junavuoroja ei löytynyt.");
-            System.out.println("Kokeile matkahuoltoa tai taksia:\n - https://matkahuolto.fi\n- https://kovanen.com");
+            System.out.println("Kokeile matkahuoltoa tai taksia:\n- https://matkahuolto.fi\n- https://kovanen.com");
         } else {
             System.out.println("\n" + "Anna haluamasi junan indeksi: ");
             saapuvaJuna = lukija.nextInt();
