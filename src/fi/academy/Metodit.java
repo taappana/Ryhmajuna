@@ -180,7 +180,14 @@ public class Metodit {
 
                             }break;
                         }
+<<<<<<< HEAD
                     }
+=======
+
+                    }
+
+
+>>>>>>> FETCH_HEAD
                 }
             }
         }

@@ -1,5 +1,6 @@
 package fi.academy;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,4 +22,13 @@ public class Main {
         System.out.println();
         System.out.println();
     }
+=======
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("\nTervetuloa käyttämään Ryhmäjunan aikataulusovellusta. \n \n");
+        JunaJSON.lueJunanJSONData();
+    }
+>>>>>>> FETCH_HEAD
 }
