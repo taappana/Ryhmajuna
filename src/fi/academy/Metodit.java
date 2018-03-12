@@ -2,6 +2,7 @@ package fi.academy;
 
 import java.util.*;
 
+// tässäpä on käytetyt metodit
 public class Metodit {
     static String kayttajanValinta;
 
@@ -48,6 +49,7 @@ public class Metodit {
         return annetutMinuutit;
     }
 
+    // Anna käyttäny tunnit
     public static int getAnnetutTunnit(Scanner lukija) {
         int annetutTunnit = 0;
         System.out.print("Anna tunnit: ");
@@ -73,15 +75,16 @@ public class Metodit {
         return annetutTunnit;
     }
 
+    // Random saatila generaattori
     public static String randomSaatila() {
         List<String> saatila = new ArrayList<String>();
-        saatila.add("harvinaisen aurinkoista");
-        saatila.add("etanan lupaamaa poutaa");
+        saatila.add("aurinko paistelloo");
+        saatila.add("etana ennustaa poutaa");
         saatila.add("sataa mummoja hameet korvissa");
-        saatila.add("keltaista lumisadetta");
-        saatila.add("lumimyrskyä");
-        saatila.add("räntäsadetta");
-        saatila.add("sataa kissoja ja koiria");
+        saatila.add("keltaista kusta");
+        saatila.add("hurrikaani");
+        saatila.add("räntää tulloo");
+        saatila.add("sattoo kissoja ja koiria");
         Random rnd = new Random();
         int celsius = rnd.nextInt(5 + 1 + 6) - 6;
         int saanIndeksi = rnd.nextInt(saatila.size());
@@ -89,6 +92,7 @@ public class Metodit {
         return ("Sää perillä: " + celsius + " celsiusastetta ja " + randomSaa + ".");
     }
 
+    // Käyttäjä voi valita haluaako löytää junan lähtöajan tai saapumisajan mukaan.
     public static void valittuLahtoTaiSaapuminen() {
         Scanner lukija = new Scanner(System.in);
         System.out.println(" Valitse 1, jos haluat aikataulun lähtöajan mukaan. \n Valitse 2, jos haluat aikataulun saapumisajan mukaan.");
@@ -100,6 +104,7 @@ public class Metodit {
         kayttajanValinta1tai2(kayttajanValinta);
     }
 
+    // Käytäjä voi valita vaihtoehdot yksi tai kaksi
     public static void kayttajanValinta1tai2(String kayttajanValinta) {
         if (kayttajanValinta.equalsIgnoreCase("1")) {
             //junatLahtoajanMukaan(lukija, annettuPaateAsema, lahtoAsemaLyhenne, paateAsemaLyhenne, aika2, junat);
@@ -109,6 +114,7 @@ public class Metodit {
         }
     }
 
+    // Etsi junia saapumisajan mukaan
     public static void junatSaapumisajanMukaan(Scanner lukija, String annettuLahtoAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
         int saapuvaJuna;
         int loytyy = 0;
@@ -160,6 +166,7 @@ public class Metodit {
 
     }
 
+    // Hakee junat lähtöajan mukaan
     public static void junatLahtoajanMukaan(Scanner lukija, String annettuPaateAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
         int lahtevaJuna;
         int loydettyja = 0;
