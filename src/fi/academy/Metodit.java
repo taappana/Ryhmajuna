@@ -4,9 +4,13 @@ import java.util.*;
 
 public class Metodit {
     static String kayttajanValinta;
+    private Scanner lukija;
 
-    public static String syöteLahto() {
-        Scanner lukija = new Scanner(System.in);
+    public Metodit() {
+        this.lukija = new Scanner(System.in);
+    }
+
+    public String syöteLahto() {
         // Käsitellään lähtöäaseman syöte pieniksi kirjaimiksi.
         System.out.print("Anna lähtöasema: ");
         String kayttajanLahtoAsema = lukija.nextLine().toLowerCase();
@@ -14,8 +18,7 @@ public class Metodit {
         String kayttajanLahtoAsemaEkaIsolla = kayttajanLahtoAsemaEkaKirjain + kayttajanLahtoAsema.substring(1);
         return kayttajanLahtoAsemaEkaIsolla;
     }
-    public static String syötePääte() {
-        Scanner lukija = new Scanner(System.in);
+    public String syötePääte() {
         // Käsitellään pääteäaseman syöte pieniksi kirjaimiksi.
         System.out.print("Anna pääteasema: ");
         String kayttajanPaateAsema = lukija.nextLine().toLowerCase();
@@ -24,7 +27,7 @@ public class Metodit {
         return kayttajanPaateAsemaEkaIsolla;
     }
 
-    public static int getAnnetutMinuutit(Scanner lukija) {
+    public int getAnnetutMinuutit(Scanner lukija) {
         System.out.print("Anna minuutit: ");
         int annetutMinuutit = 0;
         do {
@@ -48,7 +51,7 @@ public class Metodit {
         return annetutMinuutit;
     }
 
-    public static int getAnnetutTunnit(Scanner lukija) {
+    public int getAnnetutTunnit(Scanner lukija) {
         int annetutTunnit = 0;
         System.out.print("Anna tunnit: ");
         do {
@@ -73,7 +76,7 @@ public class Metodit {
         return annetutTunnit;
     }
 
-    public static String randomSaatila() {
+    public String randomSaatila() {
         List<String> saatila = new ArrayList<String>();
         saatila.add("harvinaisen aurinkoista");
         saatila.add("etanan lupaamaa poutaa");
@@ -89,8 +92,7 @@ public class Metodit {
         return ("Sää perillä: " + celsius + " celsiusastetta ja " + randomSaa + ".");
     }
 
-    public static void valittuLahtoTaiSaapuminen() {
-        Scanner lukija = new Scanner(System.in);
+    public void valittuLahtoTaiSaapuminen() {
         System.out.println(" Valitse 1, jos haluat aikataulun lähtöajan mukaan. \n Valitse 2, jos haluat aikataulun saapumisajan mukaan.");
         kayttajanValinta = lukija.nextLine();
         while (!(kayttajanValinta.equalsIgnoreCase("1") || kayttajanValinta.equalsIgnoreCase("2"))) {
@@ -100,7 +102,7 @@ public class Metodit {
         kayttajanValinta1tai2(kayttajanValinta);
     }
 
-    public static void kayttajanValinta1tai2(String kayttajanValinta) {
+    public void kayttajanValinta1tai2(String kayttajanValinta) {
         if (kayttajanValinta.equalsIgnoreCase("1")) {
             //junatLahtoajanMukaan(lukija, annettuPaateAsema, lahtoAsemaLyhenne, paateAsemaLyhenne, aika2, junat);
             if(kayttajanValinta.equalsIgnoreCase("2")) {
@@ -109,7 +111,7 @@ public class Metodit {
         }
     }
 
-    public static void junatSaapumisajanMukaan(Scanner lukija, String annettuLahtoAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
+    public void junatSaapumisajanMukaan(Scanner lukija, String annettuLahtoAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
         int saapuvaJuna;
         int loytyy = 0;
         Collections.reverse(junat);
@@ -160,7 +162,7 @@ public class Metodit {
 
     }
 
-    public static void junatLahtoajanMukaan(Scanner lukija, String annettuPaateAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
+    public void junatLahtoajanMukaan(Scanner lukija, String annettuPaateAsema, String lahtoAsemaLyhenne, String paateAsemaLyhenne, Date aika2, List<Juna> junat) {
         int lahtevaJuna;
         int loydettyja = 0;
         ulompi:
